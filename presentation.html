@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Santander UK Data Lake Extension - Professional Services Proposal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Amazon Ember', 'Helvetica Neue', Arial, sans-serif;
+            background: #0f1b2e;
+            overflow: hidden;
+        }
+
+        .presentation {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: none;
+            background: #0f1b2e;
+            padding: 80px 100px 60px 100px;
+            color: white;
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Logo Header */
+        .logo-header {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 60px;
+            height: 80px;
+        }
+
+        .logo-box {
+            height: 60px;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-box img {
+            height: 100%;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .aws-logo img {
+            height: 50px;
+        }
+
+        .santander-logo img {
+            height: 50px;
+        }
+
+        .slide-header {
+            margin-bottom: 40px;
+            border-left: 5px solid #FF9900;
+            padding-left: 20px;
+        }
+
+        .slide-title {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #FF9900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .slide-subtitle {
+            font-size: 24px;
+            color: #ffffff;
+            font-weight: 400;
+        }
+
+        .slide-content {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .content-box {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 20px;
+            border-left: 4px solid #FF9900;
+        }
+
+        .content-box h3 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: #FF9900;
+            font-weight: 700;
+        }
+
+        .content-box h4 {
+            font-size: 22px;
+            margin: 20px 0 10px 0;
+            color: #FF9900;
+            font-weight: 600;
+        }
+
+        .content-box p, .content-box li {
+            font-size: 18px;
+            line-height: 1.8;
+            margin-bottom: 10px;
+            color: #ffffff;
+        }
+
+        .content-box ul {
+            margin-left: 25px;
+            margin-top: 10px;
+        }
+
+        .content-box li::marker {
+            color: #FF9900;
+        }
+
+        .highlight {
+            background: rgba(255, 153, 0, 0.2);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            color: #FF9900;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .metric-card {
+            background: rgba(255, 153, 0, 0.1);
+            padding: 25px;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid #FF9900;
+        }
+
+        .metric-value {
+            font-size: 42px;
+            font-weight: 700;
+            color: #FF9900;
+            margin-bottom: 10px;
+        }
+
+        .metric-label {
+            font-size: 16px;
+            color: #ffffff;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            background: #FF9900;
+            border: none;
+            color: #0f1b2e;
+            padding: 12px 28px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 700;
+        }
+
+        .nav-btn:hover {
+            background: #ec7211;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 153, 0, 0.4);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .slide-counter {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: rgba(255, 153, 0, 0.2);
+            border: 2px solid #FF9900;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-size: 16px;
+            color: white;
+            z-index: 1000;
+            font-weight: 600;
+        }
+
+        .title-slide {
+            background: #0f1b2e;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .title-slide .slide-title {
+            font-size: 64px;
+            margin-bottom: 30px;
+            color: #FF9900;
+        }
+
+        .title-slide .slide-subtitle {
+            font-size: 36px;
+            margin-bottom: 50px;
+            color: #ffffff;
+        }
+
+        .title-slide .meta {
+            font-size: 20px;
+            color: #ffffff;
+            margin-top: 30px;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .priority-high {
+            color: #EC0000;
+            font-weight: 700;
+        }
+
+        .priority-medium {
+            color: #FF9900;
+            font-weight: 700;
+        }
+
+        .priority-low {
+            color: #6bcf7f;
+            font-weight: 700;
+        }
+
+        /* Footer bar */
+        .slide-footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: linear-gradient(90deg, #FF9900 0%, #EC0000 100%);
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation">
+        <!-- Slide 1: Title -->
+        <div class="slide active title-slide">
+            <div class="logo-header">
+                <div class="logo-box aws-logo">
+                    <img src="Logo AWS.png" alt="AWS">
+                </div>
+                <div class="logo-box santander-logo">
+                    <img src="Logo Santander.png" alt="Santander">
+                </div>
+            </div>
+            <div>
+                <div class="slide-title">Santander UK Data Lake</div>
+                <div class="slide-subtitle">Extension Engagement Proposal</div>
+                <div class="meta">
+                    <p>AWS Professional Services</p>
+                    <p>February 24, 2026</p>
+                </div>
+            </div>
+            <div class="slide-footer"></div>
+        </div>
+
+        <!-- Slide 2: Executive Summary -->
+        <div class="slide">
+            <div class="logo-header">
+                <div class="logo-box aws-logo">
+                    <img src="Logo AWS.png" alt="AWS">
+                </div>
+                <div class="logo-box santander-logo">
+                    <img src="Logo Santander.png" alt="Santander">
+                </div>
+            </div>
+            <div class="slide-header">
+                <div class="slide-title">Executive Summary</div>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <p>Building upon the successful foundation established during our initial migration support from Cloudera to AWS, this strategic engagement is designed to elevate Santander UK's Data Lake capabilities to the next level. We will focus on unlocking significant cost optimization opportunities, implementing industry-leading data lake best practices, and transforming the platform into a truly cloud-native, high-performance analytics environment that drives measurable business value.</p>
+                </div>
+                <div class="content-box">
+                    <h3>Key Objectives</h3>
+                    <ul>
+                        <li>Optimize cluster management and resource utilization</li>
+                        <li>Implement multi-account architecture for enhanced governance</li>
+                        <li>Establish cost attribution and monitoring capabilities</li>
+                        <li>Modernize legacy code and improve operational efficiency</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="slide-footer"></div>
+        </div>
+
+        <!-- Slide 3: Initiative 1 - Centralized Scheduler -->
+        <div class="slide">
+            <div class="logo-header">
+                <div class="logo-box aws-logo">
+                    <img src="Logo AWS.png" alt="AWS">
+                </div>
+                <div class="logo-box santander-logo">
+                    <img src="Logo Santander.png" alt="Santander">
+                </div>
+            </div>
+            <div class="slide-header">
+                <div class="slide-title">Initiative 1: Centralized Scheduler</div>
+                <div class="slide-subtitle">Priority: <span class="priority-high">High</span> | Effort: 8-10 weeks</div>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h4>Challenge</h4>
+                    <p>Direct migration from Cloudera without refactoring resulted in suboptimal cluster strategy and resource management.</p>
+                </div>
+                <div class="content-box">
+                    <h4>Solution: Centralized Scheduler Platform</h4>
+                    <ul>
+                        <li>Job size classification engine (small jobs: 1 CPU, 1GB RAM)</li>
+                        <li>Automated cluster scaling based on workload patterns</li>
+                        <li>Per-team cost attribution and chargeback mechanisms</li>
+                        <li>Centralized monitoring dashboard</li>
+                    </ul>
+                </div>
+                <div class="content-box">
+                    <h4>Benefits</h4>
+                    <p><span class="highlight">Reduced costs</span> through optimized resource utilization | <span class="highlight">Improved performance</span> and reduced queue times | <span class="highlight">Enhanced visibility</span> into team-level consumption</p>
+                </div>
+            </div>
+            <div class="slide-footer"></div>
+        </div>
+
+        <!-- Slide 4: Initiative 2 - Multi-Account Architecture -->
+        <div class="slide">
+            <div class="logo-header">
+                <div class="logo-box aws-logo">
+                    <img src="Logo AWS.png" alt="AWS">
+                </div>
+                <div class="logo-box santander-logo">
+                    <img src="Logo Santander.png" alt="Santander">
+                </div>
+            </div>
+            <div class="slide-header">
+                <div class="slide-title">Initiative 2: Multi-Account Architecture</div>
+                <div class="slide-subtitle">Priority: <span class="priority-high">High</span> | Effort: 10-12 weeks</div>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h4>Challenge</h4>
+                    <p>Current single-account architecture limits governance, security isolation, and operational flexibility.</p>
+                </div>
+                <div class="content-box">
+                    <h4>Solution Components</h4>
+                    <ul>
+                        <li>Account structure design (dev, test, prod per business unit)</li>
+                        <li>Secure Landing Zone (SLZ) integration</li>
+                        <li>Cross-account access patterns and IAM strategy</li>
+                        <li>Centralized logging and monitoring</li>
+                        <li>Cost allocation and billing separation</li>
+                    </ul>
+                </div>
+                <div class="content-box">
+                    <h4>Key Dependency</h4>
+                    <p>Requires buy-in from <span class="highlight">SLZ and Santander governance teams</span></p>
+                </div>
+            </div>
+            <div class="slide-footer"></div>
+        </div>
+
+        <!-- Slide 5: Initiative 3 - AI Code Analysis -->
+        <div class="slide">
+            <div class="logo-header">
+                <div class="logo-box aws-logo">
+                    <img src="Logo AWS.png" alt="AWS">
+                </div>
+                <div class="logo-box santander-logo">
+                    <img src="Logo Santander.png" alt="Santander">
+                </div>
+            </div>
+            <div class="slide-header">
+                <div class="slide-title">Initiative 3: AI-Powered Code Analysis</div>
+                <div class="slide-subtitle">Priority: <span class="priority-medium">Medium</span> | Effort: 6-8 weeks</div>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h4>Challenge</h4>
+                    <p>Legacy code patterns from Cloudera migration (RDDs, outdated Spark versions, HDFS dependencies) impact performance and maintainability.</p>
+                </div>
+                <div class="two-column">
+                    <div class="content-box">
+                        <h4>Capabilities</h4>
+                        <ul>
+                            <li>Automated legacy pattern detection</li>
+                            <li>Security vulnerability scanning</li>
+                            <li>CloudWatch metrics integration</li>
+                            <li>Cluster-level performance analysis</li>
+                        </ul>
+                    </div>
+                    <div class="content-box">
+                        <h4>AI Enhancements</h4>
+                        <ul>
+                            <li>Code modernization suggestions</li>
+                            <li>Automated fix generation</li>
+                            <li>Job creation assistance</li>
+                            <li>Knowledge transfer support</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer"></div>
+        </div>
+
+        <!-- Slide 6: Initiative 4 & 5 -->
+        <div class="slide">
+            <div class="logo-header">
+                <div class="logo-box aws-logo">
+                    <img src="Logo AWS.png" alt="AWS">
+                </div>
+                <div class="logo-box santander-logo">
+                    <img src="Logo Santander.png" alt="Santander">
+                </div>
+            </div>
+            <div class="slide-header">
+                <div class="slide-title">Additional Initiatives</div>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>Initiative 4: Cost Attribution Framework</h3>
+                    <p><span class="priority-medium">Priority: Medium</span> | Effort: 4-6 weeks</p>
+                    <ul>
+                        <li>Control-M workflow ID mapping to AWS resources</li>
+                        <li>Tag-based cost allocation strategy</li>
+                        <li>Team-level cost dashboards and reporting</li>
+                        <li>Cost anomaly detection and alerting</li>
+                    </ul>
+                </div>
+                <div class="content-box">
+                    <h3>Initiative 5: Legacy Code Modernization</h3>
+                    <p><span class="priority-low">Priority: Medium-Low</span> | Effort: 12-16 weeks (phased)</p>
+                    <ul>
+                        <li>RDD to DataFrame/Dataset API migration</li>
+                        <li>Spark version upgrades with compatibility testing</li>
+                        <li>HDFS to S3 migration for remaining workloads</li>
+                        <li>Spark configuration optimization for EMR</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="slide-footer"></div>
+        </div>
+
+        <!-- Slide 7: Implementation Approach -->
+        <div class="slide">
+            <div class="logo-header">
+                <div class="logo-box aws-logo">
+                    <img src="Logo AWS.png" alt="AWS">
+                </div>
+                <div class="logo-box santander-logo">
+                    <img src="Logo Santander.png" alt="Santander">
+                </div>
+            </div>
+            <div class="slide-header">
+                <div class="slide-title">Implementation Approach</div>
+                <div class="slide-subtitle">Phased Delivery Model</div>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>Phase 1: Discovery & Planning</h3>
+                    <p><span class="highlight">2 weeks</span> - Requirements gathering, architecture design, stakeholder alignment</p>
+                </div>
+                <div class="content-box">
+                    <h3>Phase 2: Quick Wins</h3>
+                    <p><span class="highlight">4-6 weeks</span> - Cost attribution, AI code analysis pilot, initial modernization recommendations</p>
+                </div>
+                <div class="content-box">
+                    <h3>Phase 3: Strategic Implementations</h3>
+                    <p><span class="highlight">8-12 weeks</span> - Centralized scheduler, multi-account architecture, monitoring dashboards</p>
+                </div>
+                <div class="content-box">
+                    <h3>Phase 4: Optimization & Knowledge Transfer</h3>
+                    <p><span class="highlight">4 weeks</span> - Performance tuning, documentation, team training</p>
+                </div>
+            </div>
+            <div class="slide-footer"></div>
+        </div>
+
+        <!-- Slide 8: Success Metrics -->
+        <div class="slide">
+            <div class="logo-header">
+                <div class="logo-box aws-logo">
+                    <img src="Logo AWS.png" alt="AWS">
+                </div>
+                <div class="logo-box santander-logo">
+                    <img src="Logo Santander.png" alt="Santander">
+                </div>
+            </div>
+            <div class="slide-header">
+                <div class="slide-title">Success Metrics</div>
+            </div>
+            <div class="slide-content">
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-value">20-30%</div>
+                        <div class="metric-label">Cost Reduction</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">40%</div>
+                        <div class="metric-label">Queue Time Reduction</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">100%</div>
+                        <div class="metric-label">Job Cost Attribution</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">80%</div>
+                        <div class="metric-label">Legacy Code Identified</div>
+                    </div>
+                </div>
+                <div class="content-box" style="margin-top: 30px;">
+                    <h3>Key Deliverables</h3>
+                    <ul>
+                        <li>Architecture design documents</li>
+                        <li>Centralized scheduler platform</li>
+                        <li>Multi-account implementation guide</li>
+                        <li>Cost attribution dashboards</li>
+                        <li>Code analysis reports and recommendations</li>
+                        <li>Operational runbooks and documentation</li>
+                        <li>Knowledge transfer sessions</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="slide-footer"></div>
+        </div>
+
+        <!-- Slide 9: Timeline & Investment -->
+        <div class="slide">
+            <div class="logo-header">
+                <div class="logo-box aws-logo">
+                    <img src="Logo AWS.png" alt="AWS">
+                </div>
+                <div class="logo-box santander-logo">
+                    <img src="Logo Santander.png" alt="Santander">
+                </div>
+            </div>
+            <div class="slide-header">
+                <div class="slide-title">Timeline & Investment</div>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>Total Duration</h3>
+                    <p style="font-size: 32px; color: #FF9900; font-weight: 700;">16-20 weeks (phased delivery)</p>
+                </div>
+                <div class="two-column">
+                    <div class="content-box">
+                        <h3>High Priority</h3>
+                        <ul>
+                            <li>Centralized Scheduler (8-10 weeks)</li>
+                            <li>Multi-Account Architecture (10-12 weeks)</li>
+                        </ul>
+                    </div>
+                    <div class="content-box">
+                        <h3>Medium Priority</h3>
+                        <ul>
+                            <li>AI Code Analysis (6-8 weeks)</li>
+                            <li>Cost Attribution (4-6 weeks)</li>
+                            <li>Code Modernization (12-16 weeks)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="content-box">
+                    <h3>Flexible Scope</h3>
+                    <p>Initiatives can be delivered independently or combined based on business priorities and resource availability.</p>
+                </div>
+            </div>
+            <div class="slide-footer"></div>
+        </div>
+
+        <!-- Slide 10: Next Steps -->
+        <div class="slide">
+            <div class="logo-header">
+                <div class="logo-box aws-logo">
+                    <img src="Logo AWS.png" alt="AWS">
+                </div>
+                <div class="logo-box santander-logo">
+                    <img src="Logo Santander.png" alt="Santander">
+                </div>
+            </div>
+            <div class="slide-header">
+                <div class="slide-title">Next Steps</div>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>Week 1: Stakeholder Review</h3>
+                    <p>Collect feedback from Santander UK, AWS, and Deloitte teams</p>
+                </div>
+                <div class="content-box">
+                    <h3>Week 2: Prioritization Workshop</h3>
+                    <p>Collaborative session to prioritize initiatives based on business impact and technical feasibility</p>
+                </div>
+                <div class="content-box">
+                    <h3>Week 3: Engagement Kickoff</h3>
+                    <p>Finalize scope and initiate Phase 1 (Discovery & Planning)</p>
+                </div>
+                <div class="content-box" style="margin-top: 40px; text-align: center;">
+                    <h3>Questions?</h3>
+                    <p style="font-size: 24px; margin-top: 20px;">AWS Professional Services Team</p>
+                </div>
+            </div>
+            <div class="slide-footer"></div>
+        </div>
+    </div>
+
+    <div class="slide-counter">
+        <span id="current-slide">1</span> / <span id="total-slides">10</span>
+    </div>
+
+    <div class="navigation">
+        <button class="nav-btn" id="prev-btn" onclick="previousSlide()">← Previous</button>
+        <button class="nav-btn" id="next-btn" onclick="nextSlide()">Next →</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        document.getElementById('total-slides').textContent = totalSlides;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            
+            document.getElementById('current-slide').textContent = currentSlide + 1;
+            
+            document.getElementById('prev-btn').disabled = currentSlide === 0;
+            document.getElementById('next-btn').disabled = currentSlide === totalSlides - 1;
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                showSlide(currentSlide + 1);
+            }
+        }
+
+        function previousSlide() {
+            if (currentSlide > 0) {
+                showSlide(currentSlide - 1);
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                previousSlide();
+            }
+        });
+
+        // Initialize
+        showSlide(0);
+    </script>
+</body>
+</html>
